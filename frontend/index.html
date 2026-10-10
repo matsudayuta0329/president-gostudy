@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Chat</title>
+</head>
+<body>
+    <input id="message" type="text" placeholder="メッセージを入力">
+    <button onclick="sendMessage()">送信</button>
+    <ul id="chat"></ul>
+
+    <script>
+        const ws = new WebSocket("ws://localhost:8080/ws");
+
+        ws.onmessage = (event) => {
+            const msgList = document.getElementById("chat");
+            const li = document.createElement("li");
+            li.textContent = event.data;
+            msgList.appendChild(li);
+        };
+
+        function sendMessage() {
+            const input = document.getElementById("message");
+            ws.send(input.value);
+            input.value = "";
+        }
+    </script>
+</body>
+</html>
